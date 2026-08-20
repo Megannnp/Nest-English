@@ -1,0 +1,1 @@
+export default { type: 'speech', label: '演讲稿', icon: '🎤', color: '#ec4899', requiredFields: ['openingCheck.hook','openingCheck.score','logicCheck.score','interactionCheck.score','closingCheck.score'] };

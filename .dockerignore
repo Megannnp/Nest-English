@@ -1,0 +1,27 @@
+.git
+.github
+.DS_Store
+
+node_modules
+client/node_modules
+server/node_modules
+
+client/dist
+server/logs
+logs
+
+.env
+.env.*
+server/.env
+server/.env.local
+server/.env.manual-regression.local
+server/backups
+.deploy.local
+
+# 部署脚本与 IDE 配置不入镜像
+update.sh
+scripts/docker-deploy-diagnose.sh
+scripts/docker-rollback.sh
+.vscode
+.idea
+.workbuddy

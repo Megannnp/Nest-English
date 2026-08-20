@@ -1,0 +1,751 @@
+/* ── Megan personal page ───────────────────────────
+   All layout is driven by CSS media queries, not by a JS `isMobile`
+   flag, so resizing or rotating never leaves the page in a stale
+   breakpoint. Tokens are scoped to .mg-page so nothing leaks into or
+   is overridden by the global theme in index.css. */
+
+.mg-page {
+  --mg-bg: #fbfbfa;
+  --mg-surface: #ffffff;
+  --mg-surface-soft: #f6f6f4;
+  --mg-ink: #1d1d1b;
+  --mg-body: #43423f;
+  --mg-muted: #5d5c58;
+  --mg-line: #e2e2de;
+  --mg-line-strong: #c4c4be;
+
+  --mg-font-sans: var(--font-sans);
+  --mg-font-display: var(--font-serif);
+
+  --mg-inner: 1080px;
+  --mg-radius: 18px;
+  --mg-shadow: 0 10px 26px rgba(0, 0, 0, 0.05);
+  --mg-shadow-lift: 0 18px 42px rgba(0, 0, 0, 0.1);
+
+  background: var(--mg-bg);
+  color: var(--mg-body);
+  font-family: var(--mg-font-sans);
+  min-height: 100vh;
+}
+
+.mg-inner {
+  width: min(var(--mg-inner), 100%);
+  margin: 0 auto;
+}
+
+/* ── Shared section shell ───────────────────────── */
+
+.mg-section {
+  padding: 44px 20px;
+  border-top: 1px solid var(--mg-line);
+}
+
+.mg-section__title {
+  margin: 0 0 22px;
+  color: var(--mg-ink);
+  font-size: 25px;
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: 1px;
+}
+
+@media (min-width: 768px) {
+  .mg-section {
+    padding: 66px 46px;
+  }
+
+  .mg-section__title {
+    margin-bottom: 28px;
+    font-size: 32px;
+  }
+}
+
+/* ── Buttons ────────────────────────────────────── */
+
+.mg-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  min-height: 46px;
+  padding: 0 20px;
+  border-radius: 999px;
+  border: 1px solid transparent;
+  font-family: inherit;
+  font-size: 15px;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color 0.18s ease, color 0.18s ease, border-color 0.18s ease;
+}
+
+.mg-btn--primary {
+  border-color: var(--mg-ink);
+  background: var(--mg-ink);
+  color: #fff;
+}
+
+.mg-btn--primary:hover {
+  background: #000;
+  border-color: #000;
+}
+
+.mg-btn--ghost {
+  border-color: var(--mg-line-strong);
+  background: var(--mg-surface);
+  color: var(--mg-ink);
+}
+
+.mg-btn--ghost:hover {
+  border-color: var(--mg-ink);
+}
+
+.mg-page a:focus-visible,
+.mg-page button:focus-visible {
+  outline: 2px solid var(--mg-ink);
+  outline-offset: 3px;
+}
+
+/* ── Hero ───────────────────────────────────────── */
+
+.mg-hero {
+  position: relative;
+  overflow: hidden;
+  padding: 46px 22px 42px;
+  background: linear-gradient(135deg, #fbfbfa 0%, #fbfbfa 58%, #f1f1ef 100%);
+}
+
+/* Soft radial wash instead of a hard-edged circle, which used to cut a
+   visible line across the hero buttons on narrow screens. */
+.mg-hero__glow {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(
+    circle at 88% 34%,
+    rgba(206, 206, 202, 0.55) 0%,
+    rgba(206, 206, 202, 0.28) 34%,
+    rgba(206, 206, 202, 0) 62%
+  );
+}
+
+.mg-hero__grid {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 34px;
+  align-items: center;
+}
+
+.mg-hero__copy {
+  max-width: 620px;
+}
+
+/* Chip sits above the name as a small positioning label. */
+.mg-hero__chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0 0 24px;
+  padding: 8px 18px;
+  border-radius: 999px;
+  background: #55544f;
+  color: #fff;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+/* Hero type runs on a disciplined 3-tier scale:
+   · loud   (ink, 700)   → name, quote
+   · quiet  (muted, 500) → eyebrow, role
+   · body   (muted, 400) → lede
+   Line-heights snap to two values — ~1.15 for display, ~1.7 for reading —
+   instead of the old 1.05/1.4/1.6/1.85 jumble. */
+.mg-hero__eyebrow {
+  margin: 0 0 4px;
+  color: var(--mg-muted);
+  font-family: var(--mg-font-display);
+  font-size: 17px;
+  font-style: italic;
+  font-weight: 500;
+  line-height: 1.2;
+  letter-spacing: 0.2px;
+}
+
+.mg-hero__name {
+  margin: 0 0 14px;
+  color: var(--mg-ink);
+  font-size: 40px;
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: 1px;
+}
+
+.mg-hero__role {
+  margin: 0;
+  color: var(--mg-muted);
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.7;
+}
+
+/* The statement is the hero's focal line — separated by whitespace rather
+   than a divider rule, which read as clutter alongside everything else. */
+.mg-hero__quote {
+  margin: 28px 0 0;
+  color: var(--mg-ink);
+  font-size: 23px;
+  font-weight: 700;
+  line-height: 1.35;
+}
+
+.mg-hero__lede {
+  max-width: 540px;
+  margin: 16px 0 0;
+  color: var(--mg-muted);
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 1.7;
+}
+
+.mg-hero__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 32px;
+}
+
+/* Portrait */
+
+.mg-portrait {
+  position: relative;
+  justify-self: center;
+  width: min(72vw, 300px);
+  height: min(72vw, 300px);
+  aspect-ratio: 1 / 1;
+  padding: 12px;
+  border: 2px dashed #a3a39f;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.55);
+  box-shadow: 0 18px 48px rgba(0, 0, 0, 0.08);
+}
+
+.mg-portrait__img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+  object-position: 50% 27%;
+  box-shadow: 0 18px 44px rgba(0, 0, 0, 0.13);
+}
+
+.mg-portrait__tag {
+  position: absolute;
+  left: 10px;
+  right: 10px;
+  bottom: -16px;
+  padding: 12px 18px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.94);
+  color: var(--mg-ink);
+  font-size: 13px;
+  font-weight: 600;
+  text-align: center;
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.12);
+}
+
+@media (min-width: 900px) {
+  .mg-hero {
+    display: flex;
+    align-items: center;
+    min-height: calc(100vh - 56px);
+    padding: 80px 56px 72px;
+  }
+
+  .mg-hero__grid {
+    /* Cap at the same 1080px inner width as every .mg-section so the hero
+       copy shares the exact left edge as the sections below it. */
+    grid-template-columns: minmax(0, 1fr) minmax(280px, 0.78fr);
+    gap: 56px;
+  }
+
+  .mg-hero__eyebrow {
+    font-size: 20px;
+  }
+
+  .mg-hero__name {
+    font-size: 56px;
+  }
+
+  .mg-hero__chip {
+    font-size: 14px;
+  }
+
+  .mg-hero__role {
+    font-size: 15px;
+  }
+
+  .mg-hero__quote {
+    margin-top: 32px;
+    font-size: 30px;
+  }
+
+  .mg-portrait {
+    justify-self: end;
+    width: min(100%, 360px);
+    height: min(100%, 360px);
+    max-width: 360px;
+    padding: 18px;
+  }
+
+  .mg-portrait__tag {
+    left: 28px;
+    right: 28px;
+    bottom: -22px;
+  }
+}
+
+/* ── About + public account ─────────────────────────
+   A single-column flow — intro, a full-width row of points, then the
+   public-account banner — so nothing gets squeezed into a narrow half
+   column the way the old two-up grid did. */
+
+.mg-about__text {
+  margin: 0;
+  color: var(--mg-body);
+  font-size: 16px;
+  line-height: 1.9;
+}
+
+.mg-about__points {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 14px;
+  margin: 28px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.mg-about__point {
+  padding: 20px 22px;
+  border: 1px solid var(--mg-line);
+  border-radius: 16px;
+  background: var(--mg-surface);
+}
+
+.mg-about__point strong {
+  display: block;
+  margin-bottom: 8px;
+  color: var(--mg-ink);
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.mg-about__point span {
+  display: block;
+  color: var(--mg-muted);
+  font-size: 14px;
+  line-height: 1.75;
+}
+
+@media (min-width: 640px) {
+  .mg-about__points {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 16px;
+  }
+}
+
+@media (min-width: 768px) {
+  .mg-about__text {
+    font-size: 19px;
+  }
+
+  .mg-about__points {
+    margin-top: 32px;
+  }
+}
+
+/* Public-account banner: icon | copy | QR, side by side on desktop and
+   stacked on narrow screens. */
+.mg-account {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 18px 20px;
+  align-items: center;
+  margin-top: 16px;
+  padding: 22px;
+  border: 1px solid var(--mg-line);
+  border-radius: var(--mg-radius);
+  background: linear-gradient(135deg, #ffffff 0%, #f4f4f2 100%);
+  color: var(--mg-ink);
+  text-decoration: none;
+  box-shadow: var(--mg-shadow);
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
+}
+
+.mg-account:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--mg-shadow-lift);
+}
+
+.mg-account__icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: #55544f;
+  color: #fff;
+}
+
+.mg-account__body {
+  display: block;
+}
+
+.mg-account__kicker {
+  display: block;
+  margin: 0 0 6px;
+  color: var(--mg-muted);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 1px;
+}
+
+.mg-account__title {
+  display: block;
+  margin: 0;
+  color: var(--mg-ink);
+  font-size: 21px;
+  font-weight: 700;
+  line-height: 1.25;
+}
+
+.mg-account__text {
+  display: block;
+  margin: 8px 0 0;
+  color: var(--mg-muted);
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+.mg-account__more {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 14px;
+  color: var(--mg-ink);
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.mg-account__qr {
+  grid-column: 1 / -1;
+  justify-self: start;
+  width: 148px;
+  padding: 10px;
+  border-radius: 14px;
+  background: #fff;
+  box-shadow: inset 0 0 0 1px var(--mg-line);
+}
+
+.mg-account__qr img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  object-fit: contain;
+  border-radius: 8px;
+}
+
+@media (min-width: 768px) {
+  .mg-account {
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    gap: 28px;
+    padding: 28px 32px;
+  }
+
+  .mg-account__qr {
+    grid-column: auto;
+    justify-self: end;
+    width: 132px;
+  }
+}
+
+/* ── Project cards ──────────────────────────────── */
+
+.mg-cards {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+}
+
+@media (min-width: 768px) {
+  .mg-cards {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+.mg-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 216px;
+  padding: 24px;
+  border: 1px solid var(--mg-line);
+  border-radius: var(--mg-radius);
+  background: var(--mg-surface);
+  color: var(--mg-ink);
+  text-decoration: none;
+  box-shadow: var(--mg-shadow);
+  /* Hover lives in CSS so leaving a card always restores the resting
+     shadow — the old JS handler reset it to `none`. */
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
+}
+
+.mg-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--mg-shadow-lift);
+}
+
+.mg-card__type {
+  margin-bottom: 12px;
+  color: var(--mg-muted);
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.mg-card__title {
+  margin: 0;
+  color: var(--mg-ink);
+  font-size: 22px;
+  font-weight: 700;
+  line-height: 1.28;
+}
+
+.mg-card__desc {
+  margin: 18px 0 0;
+  color: var(--mg-muted);
+  font-size: 15px;
+  line-height: 1.75;
+}
+
+.mg-card__more {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 26px;
+  color: var(--mg-ink);
+  font-size: 14px;
+  font-weight: 600;
+}
+
+/* ── Practice path ──────────────────────────────── */
+
+.mg-path {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  counter-reset: mg-step;
+}
+
+.mg-path__item {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 76px;
+  padding: 16px 14px;
+  border: 1px dashed var(--mg-line-strong);
+  border-radius: 16px;
+  background: var(--mg-surface);
+  color: var(--mg-ink);
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.45;
+  text-align: center;
+}
+
+@media (min-width: 640px) {
+  .mg-path {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1000px) {
+  .mg-path {
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    gap: 22px;
+  }
+
+  .mg-path__item {
+    min-height: 106px;
+  }
+
+  /* Chevrons sit inside the grid gap, so they need no background patch
+     and can never mismatch the section colour. */
+  .mg-path__item:not(:last-child)::after {
+    content: "";
+    position: absolute;
+    right: -15px;
+    width: 7px;
+    height: 7px;
+    border-top: 2px solid var(--mg-line-strong);
+    border-right: 2px solid var(--mg-line-strong);
+    transform: rotate(45deg);
+  }
+}
+
+/* ── Work gallery ───────────────────────────────── */
+
+.mg-works {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+}
+
+@media (min-width: 640px) {
+  .mg-works {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1000px) {
+  .mg-works {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+.mg-work {
+  overflow: hidden;
+  border: 1px solid var(--mg-line);
+  border-radius: var(--mg-radius);
+  background: var(--mg-surface);
+  box-shadow: var(--mg-shadow);
+}
+
+.mg-work__img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  object-fit: cover;
+  object-position: top center;
+  background: var(--mg-surface-soft);
+}
+
+.mg-work__body {
+  padding: 16px 18px 18px;
+}
+
+.mg-work__title {
+  margin: 0;
+  color: var(--mg-ink);
+  font-size: 17px;
+  font-weight: 700;
+  line-height: 1.35;
+}
+
+.mg-work__text {
+  margin: 8px 0 0;
+  color: var(--mg-muted);
+  font-size: 14px;
+  line-height: 1.65;
+}
+
+/* ── Contact ────────────────────────────────────── */
+
+.mg-contact {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+  align-items: center;
+}
+
+@media (min-width: 900px) {
+  .mg-contact {
+    grid-template-columns: minmax(0, 1.18fr) minmax(300px, 0.82fr);
+    gap: 34px;
+  }
+}
+
+.mg-contact__card {
+  display: block;
+  width: 100%;
+  border-radius: var(--mg-radius);
+  background: var(--mg-surface);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.12);
+}
+
+.mg-contact__panel {
+  padding: 20px;
+  border: 1px solid var(--mg-line);
+  border-radius: var(--mg-radius);
+  background: var(--mg-surface);
+}
+
+.mg-contact__title {
+  margin: 0 0 14px;
+  color: var(--mg-ink);
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 1.25;
+}
+
+.mg-contact__text {
+  margin: 0 0 22px;
+  color: var(--mg-muted);
+  font-size: 15px;
+  line-height: 1.8;
+}
+
+.mg-contact__links {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.mg-contact__links .mg-btn {
+  width: 100%;
+  min-height: 52px;
+  justify-content: center;
+  padding: 0 18px;
+  text-align: center;
+  overflow-wrap: anywhere;
+}
+
+.mg-contact__copy {
+  position: relative;
+}
+
+.mg-contact__copy-status {
+  position: absolute;
+  right: 18px;
+  color: var(--mg-muted);
+  font-size: 12px;
+  font-weight: 600;
+}
+
+@media (min-width: 900px) {
+  .mg-contact__panel {
+    padding: 26px;
+  }
+
+  .mg-contact__title {
+    font-size: 30px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mg-page * {
+    transition: none !important;
+  }
+
+  .mg-card:hover,
+  .mg-account:hover {
+    transform: none;
+  }
+}

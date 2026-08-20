@@ -1,0 +1,321 @@
+/* ── GlobalTopBar ──────────────────────────────────────────── */
+
+.gtb {
+  position: sticky;
+  top: 0;
+  z-index: 200;
+  --gtb-inline-padding: max(16px, calc((100% - var(--nav-max-width, 1320px)) / 2));
+}
+
+/* Row 1: main nav */
+.gtb__row1 {
+  height: 54px;
+  background: rgba(255, 255, 255, 0.96);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid #f0f0f0;
+  display: flex;
+  align-items: center;
+  padding: 0 var(--gtb-inline-padding, max(16px, calc((100% - var(--nav-max-width, 1320px)) / 2)));
+  gap: 0;
+}
+
+.gtb__logo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-right: 16px;
+  min-height: 44px;
+  flex-shrink: 0;
+  cursor: pointer;
+  border: none;
+  background: none;
+  padding: 0 4px;
+}
+
+.gtb__logo-zh {
+  font-family: "Helvetica Neue", Arial, sans-serif;
+  font-size: 15px;
+  font-weight: 800;
+  color: #1a1a1a;
+  letter-spacing: -0.3px;
+  white-space: nowrap;
+}
+
+.gtb__vdiv {
+  width: 1px;
+  height: 18px;
+  background: #e0e0e0;
+  margin: 0 12px;
+  flex-shrink: 0;
+}
+
+.gtb__spacer {
+  flex: 1;
+}
+
+.gtb__links-desktop {
+  display: contents;
+}
+
+.gtb__link {
+  font-size: 14px;
+  font-weight: 700;
+  color: #666;
+  height: 40px;
+  padding: 0 10px;
+  display: inline-flex;
+  align-items: center;
+  border-radius: 6px;
+  cursor: pointer;
+  border: none;
+  background: none;
+  white-space: nowrap;
+  font-family: inherit;
+  line-height: 1;
+  transition: color 0.16s ease, background 0.16s ease;
+}
+
+.gtb__link:hover {
+  background: rgba(0, 0, 0, 0.04);
+  color: #333;
+}
+
+.gtb__link--active {
+  /* 导航设计而非按钮设计：保持高度不变，仅用轻微底色 + 文字加粗区分 */
+  color: #1a1a1a;
+  font-weight: 800;
+  background: rgba(0, 0, 0, 0.05);
+  border-radius: 8px;
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.03);
+}
+
+.gtb__avatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: #1a1a1a;
+  color: #fff;
+  font-size: 13px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 10px;
+  flex-shrink: 0;
+  cursor: pointer;
+  border: none;
+  font-family: inherit;
+}
+
+/* Row 2: module sub-nav */
+.gtb__row2 {
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  padding: 0 var(--gtb-inline-padding, max(16px, calc((100% - var(--nav-max-width, 1320px)) / 2)));
+  border-bottom: 1px solid transparent;
+  gap: 0;
+}
+
+/* Module switcher */
+.gtb__mod-btn {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 13px;
+  font-weight: 700;
+  padding-right: 14px;
+  margin-right: 14px;
+  border-right: 1px solid rgba(0, 0, 0, 0.10);
+  cursor: pointer;
+  background: none;
+  border-top: none;
+  border-bottom: none;
+  border-left: none;
+  min-height: 44px;
+  white-space: nowrap;
+  font-family: inherit;
+  position: relative;
+}
+
+.gtb__mod-chevron {
+  font-size: 10px;
+  opacity: 0.5;
+}
+
+/* Module dropdown */
+.gtb__mod-dropdown {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  background: #fff;
+  border: 0.5px solid #e8e8e8;
+  border-radius: 10px;
+  padding: 6px;
+  box-sizing: border-box;
+  width: min(88px, calc(100vw - 32px));
+  z-index: 300;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.10);
+}
+
+.gtb__mod-item {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #555;
+  min-height: 44px;
+  padding: 0 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  border: none;
+  background: none;
+  width: 100%;
+  text-align: left;
+  font-family: inherit;
+}
+
+.gtb__mod-item:hover {
+  background: #f5f5f5;
+}
+
+.gtb__mod-item--active {
+  background: #f0f0f0;
+  color: #1a1a1a;
+  font-weight: 700;
+}
+
+.gtb__mod-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+/* Sub-page tabs */
+.gtb__tabs {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.gtb__tab {
+  /* 二级导航采用「导航设计」而非「按钮设计」：不撑高、不圆角块 */
+  position: relative;
+  font-size: 13px;
+  font-weight: 500;
+  height: 44px;
+  padding: 0 12px;
+  display: inline-flex;
+  align-items: center;
+  cursor: pointer;
+  border: none;
+  background: none;
+  white-space: nowrap;
+  font-family: inherit;
+  transition: color 0.16s ease;
+}
+
+.gtb__tab::after {
+  /* 选中指示线：贴合底部、3px、随内容宽度 */
+  content: "";
+  position: absolute;
+  left: 12px;
+  right: 12px;
+  bottom: 0;
+  height: 3px;
+  border-radius: 3px 3px 0 0;
+  background: transparent;
+  transition: background 0.16s ease;
+}
+
+.gtb__tab:hover {
+  color: inherit;
+  opacity: 0.8;
+}
+
+.gtb__tab--active {
+  font-weight: 800;
+}
+
+.gtb__tab--active::after {
+  background: currentColor;
+}
+
+/* Admin sub-nav (row2 variant for platform management) */
+.gtb__row2--admin {
+  background: var(--color-bg-elevated, #f8f8f8) !important;
+  border-bottom-color: var(--color-border, #e5e5e5) !important;
+}
+
+.gtb__tabs--admin {
+  gap: 4px 20px;
+  flex-wrap: wrap;
+}
+
+.gtb__tabs--admin .gtb__tab {
+  font-size: 14px;
+  padding: 7px 4px;
+  border-radius: 0;
+  border-bottom: 2px solid transparent;
+  color: var(--color-text-secondary);
+}
+
+.gtb__tabs--admin .gtb__tab:hover {
+  color: var(--color-text);
+}
+
+.gtb__tabs--admin .gtb__tab--active {
+  color: var(--color-primary, #c8872d);
+  border-bottom-color: var(--color-primary, #c8872d);
+  background: none;
+  font-weight: 600;
+}
+
+/* Mobile: row1 only visible, row2 hidden */
+@media (max-width: 768px) {
+  .gtb__row1 {
+    padding: 0 16px;
+    min-height: 48px;
+  }
+
+  .gtb__links-desktop {
+    display: none;
+  }
+
+  .gtb__row2 {
+    padding: 0 0 0 12px;
+    overflow: visible;
+  }
+
+  .gtb__tabs {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    flex: 1;
+    padding-right: 12px;
+  }
+
+  .gtb__tabs--admin {
+    flex-wrap: nowrap;
+    gap: 16px;
+  }
+
+  .gtb__tabs::-webkit-scrollbar {
+    display: none;
+  }
+
+  .gtb__logo {
+    font-size: 15px;
+    margin-right: 8px;
+  }
+
+  .gtb__logo-zh {
+    display: none;
+  }
+
+  .gtb__mod-dropdown {
+    left: 0;
+  }
+}

@@ -1,0 +1,1048 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>教师端工作台原型</title>
+    <style>
+      :root {
+        --ink: #1f1b16;
+        --text: #3a3026;
+        --muted: #86796a;
+        --line: #e8dfd4;
+        --paper: #fffdfa;
+        --bg: #fff;
+        --warm: #9a6330;
+        --warm-dark: #6f431c;
+        --warm-soft: #f5e6d6;
+        --green: #1f7a5c;
+        --purple: #5548a8;
+        --blue: #1a5fa8;
+        --yellow: #8a6800;
+        --pink: #a0307a;
+        --shadow: 0 18px 46px rgba(84, 58, 28, 0.08);
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, "PingFang SC", "Microsoft YaHei", sans-serif;
+        color: var(--text);
+        background: var(--bg);
+      }
+
+      button {
+        font: inherit;
+      }
+
+      .gtb {
+        position: sticky;
+        top: 0;
+        z-index: 20;
+        background: rgba(255, 255, 255, 0.96);
+        backdrop-filter: blur(14px);
+        border-bottom: 1px solid #f0ece6;
+      }
+
+      .gtb-row {
+        height: 54px;
+        display: flex;
+        align-items: center;
+        padding: 0 28px;
+        gap: 12px;
+      }
+
+      .logo {
+        border: 0;
+        background: transparent;
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        padding: 0;
+        cursor: pointer;
+        color: var(--ink);
+        font-weight: 800;
+      }
+
+      .logo img {
+        height: 30px;
+        display: block;
+      }
+
+      .vline {
+        width: 1px;
+        height: 18px;
+        background: #ded6cc;
+        margin: 0 8px;
+      }
+
+      .nav-link {
+        border: 0;
+        background: transparent;
+        color: #84796c;
+        padding: 7px 11px;
+        border-radius: 7px;
+        cursor: pointer;
+        font-size: 14px;
+        font-weight: 800;
+        white-space: nowrap;
+      }
+
+      .nav-link.active,
+      .nav-link:hover {
+        background: #f1ece6;
+        color: var(--ink);
+      }
+
+      .spacer {
+        flex: 1;
+      }
+
+      .avatar {
+        width: 34px;
+        height: 34px;
+        border-radius: 50%;
+        border: 0;
+        background: var(--ink);
+        color: #fff;
+        font-weight: 800;
+        cursor: pointer;
+      }
+
+      .subnav {
+        height: 42px;
+        display: flex;
+        align-items: center;
+        padding: 0;
+        gap: 14px;
+        background: transparent;
+        border: 0;
+        overflow-x: auto;
+        margin-bottom: 22px;
+      }
+
+      .subnav-title {
+        flex: 0 0 auto;
+        color: var(--warm-dark);
+        font-size: 13px;
+        font-weight: 800;
+        padding-right: 14px;
+        border-right: 1px solid rgba(111, 67, 28, 0.18);
+      }
+
+      .subtab {
+        flex: 0 0 auto;
+        border: 0;
+        background: transparent;
+        color: #a47447;
+        font-size: 13px;
+        font-weight: 700;
+        padding: 5px 13px;
+        border-radius: 999px;
+        cursor: pointer;
+      }
+
+      .subtab.active {
+        background: var(--warm);
+        color: #fff;
+      }
+
+      .page {
+        max-width: 1080px;
+        margin: 0 auto;
+        padding: 34px 20px 64px;
+      }
+
+      .hero {
+        display: grid;
+        grid-template-columns: minmax(0, 1.2fr) minmax(320px, 0.8fr);
+        gap: 28px;
+        align-items: end;
+        margin-bottom: 26px;
+      }
+
+      .eyebrow {
+        margin: 0 0 9px;
+        color: var(--warm);
+        font-size: 12px;
+        font-weight: 800;
+        letter-spacing: 1.2px;
+      }
+
+      h1 {
+        margin: 0;
+        color: var(--ink);
+        font-size: 40px;
+        line-height: 1.18;
+        letter-spacing: 0;
+      }
+
+      .hero p {
+        margin: 12px 0 0;
+        color: var(--muted);
+        line-height: 1.8;
+        font-size: 18px;
+      }
+
+      .hero-actions {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+        justify-content: flex-end;
+      }
+
+      .btn {
+        border-radius: 999px;
+        padding: 11px 18px;
+        border: 1px solid #d8c4a8;
+        background: #fff;
+        color: var(--warm-dark);
+        font-weight: 800;
+        cursor: pointer;
+        white-space: nowrap;
+      }
+
+      .btn.primary {
+        border-color: transparent;
+        background: linear-gradient(135deg, #b87928 0%, #8a5a1f 55%, #5f3d18 100%);
+        color: #fff;
+        box-shadow: 0 14px 32px rgba(138, 90, 31, 0.18);
+      }
+
+      .section {
+        margin-top: 22px;
+      }
+
+      .prep-section {
+        margin: 42px -20px 0;
+        padding: 28px 20px 32px;
+        background: #fdf8f2;
+        border-top: 1px solid #f4eee7;
+        border-bottom: 1px solid #f4eee7;
+      }
+
+      .section-head {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+        gap: 16px;
+        margin-bottom: 12px;
+      }
+
+      .section-head h2 {
+        margin: 0;
+        color: var(--ink);
+        font-size: 18px;
+      }
+
+      .section-head p {
+        margin: 5px 0 0;
+        color: var(--muted);
+        font-size: 13px;
+        line-height: 1.6;
+      }
+
+      .badge {
+        border: 1px solid var(--line);
+        background: #fff;
+        color: var(--muted);
+        border-radius: 999px;
+        padding: 5px 11px;
+        font-size: 12px;
+        font-weight: 800;
+        white-space: nowrap;
+      }
+
+      .todo-grid {
+        display: grid;
+        grid-template-columns: repeat(5, minmax(0, 1fr));
+        gap: 12px;
+      }
+
+      .todo-card {
+        background: #fff;
+        border: 1px solid var(--line);
+        border-radius: 10px;
+        padding: 15px 15px 14px;
+        min-height: 138px;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        box-shadow: 0 10px 28px rgba(73, 54, 35, 0.04);
+      }
+
+      .todo-card strong {
+        font-size: 30px;
+        color: var(--ink);
+        line-height: 1;
+      }
+
+      .todo-card span {
+        color: var(--warm);
+        font-size: 13px;
+        font-weight: 800;
+      }
+
+      .todo-card p {
+        margin: 0;
+        color: var(--muted);
+        font-size: 12px;
+        line-height: 1.65;
+      }
+
+      .module-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 24px;
+      }
+
+      .module-card.featured {
+        border-color: var(--line);
+        background: #fff;
+      }
+
+      .module-card {
+        background: #fff;
+        border: 1px solid var(--line);
+        border-radius: 20px;
+        padding: 32px 36px;
+        min-height: 200px;
+        box-shadow: none;
+        display: grid;
+        align-content: start;
+        gap: 20px;
+      }
+
+      .module-top {
+        display: grid;
+        gap: 22px;
+      }
+
+      .dot {
+        width: 56px;
+        height: 56px;
+        border-radius: 14px;
+        margin-top: 0;
+        flex: 0 0 auto;
+      }
+
+      .module-card h3 {
+        margin: 0;
+        color: var(--ink);
+        font-size: 28px;
+      }
+
+      .module-card p {
+        margin: 14px 0 0;
+        color: #a8a19a;
+        font-size: 22px;
+        line-height: 1.45;
+      }
+
+      .module-actions {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+      }
+
+      .mini-btn {
+        border: 1px solid var(--line);
+        background: #fffdfa;
+        color: var(--text);
+        padding: 7px 11px;
+        border-radius: 8px;
+        font-size: 12px;
+        font-weight: 800;
+        cursor: pointer;
+      }
+
+      .layout {
+        display: grid;
+        grid-template-columns: minmax(0, 1.35fr) minmax(320px, 0.65fr);
+        gap: 18px;
+      }
+
+      .panel {
+        background: #fff;
+        border: 1px solid var(--line);
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: 0 12px 34px rgba(73, 54, 35, 0.05);
+      }
+
+      .panel-head {
+        padding: 15px 18px;
+        border-bottom: 1px solid var(--line);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+      }
+
+      .panel-head h2 {
+        margin: 0;
+        color: var(--ink);
+        font-size: 16px;
+      }
+
+      .panel-body {
+        padding: 16px 18px 18px;
+      }
+
+      .task-preview {
+        border: 1px solid #ead8c3;
+        border-radius: 10px;
+        background: linear-gradient(180deg, #fffdfa 0%, #fff 100%);
+        overflow: hidden;
+      }
+
+      .task-preview-head {
+        padding: 14px 16px;
+        background: #fdf0e4;
+        display: flex;
+        justify-content: space-between;
+        gap: 12px;
+        align-items: center;
+      }
+
+      .task-preview-head strong {
+        color: var(--ink);
+      }
+
+      .status {
+        color: #b45309;
+        background: #fff7ed;
+        border: 1px solid #f4c28a;
+        border-radius: 999px;
+        padding: 4px 10px;
+        font-size: 12px;
+        font-weight: 800;
+      }
+
+      .task-preview-body {
+        padding: 14px 16px 16px;
+        display: grid;
+        gap: 13px;
+      }
+
+      .meta-grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 10px;
+      }
+
+      .meta label {
+        display: block;
+        color: var(--muted);
+        font-size: 12px;
+        margin-bottom: 4px;
+      }
+
+      .meta b {
+        color: var(--ink);
+        font-size: 13px;
+      }
+
+      .prompt {
+        color: var(--muted);
+        font-size: 13px;
+        line-height: 1.75;
+      }
+
+      .class-list {
+        display: grid;
+        gap: 10px;
+      }
+
+      .class-row {
+        border: 1px solid var(--line);
+        border-radius: 9px;
+        padding: 12px;
+        display: flex;
+        justify-content: space-between;
+        gap: 12px;
+        align-items: center;
+      }
+
+      .class-row strong {
+        color: var(--ink);
+        font-size: 14px;
+      }
+
+      .class-row span {
+        color: var(--muted);
+        font-size: 12px;
+      }
+
+      .progress {
+        width: 120px;
+        height: 6px;
+        border-radius: 999px;
+        background: #f0ebe4;
+        overflow: hidden;
+      }
+
+      .progress i {
+        display: block;
+        height: 100%;
+        border-radius: 999px;
+        background: var(--warm);
+      }
+
+      .student-functions {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 24px;
+      }
+
+      .function-card {
+        border: 1px solid var(--line);
+        border-radius: 20px;
+        background: #fff;
+        padding: 30px 34px;
+        min-height: 160px;
+      }
+
+      .function-card::before {
+        content: "";
+        display: block;
+        width: 56px;
+        height: 56px;
+        border-radius: 14px;
+        margin-bottom: 22px;
+        background: #eadbd4;
+      }
+
+      .function-card:nth-child(2)::before {
+        background: #d9e8e3;
+      }
+
+      .function-card:nth-child(3)::before {
+        background: #d7e2ee;
+      }
+
+      .function-card:nth-child(4)::before {
+        background: #ecd8e5;
+      }
+
+      .function-card:nth-child(5)::before {
+        background: #e9e4d6;
+      }
+
+      .function-card:nth-child(6)::before {
+        background: #ded9ef;
+      }
+
+      .function-card strong {
+        color: var(--ink);
+        font-size: 24px;
+      }
+
+      .function-card p {
+        margin: 16px 0 0;
+        color: #a8a19a;
+        font-size: 20px;
+        line-height: 1.45;
+      }
+
+      .data-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 28px;
+      }
+
+      .data-card {
+        background: #fff;
+        border: 1px solid var(--line);
+        border-radius: 20px;
+        padding: 0;
+        overflow: hidden;
+        box-shadow: none;
+      }
+
+      .data-card h3 {
+        margin: 0;
+        color: inherit;
+        font-size: 28px;
+      }
+
+      .data-card .metric {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 12px;
+        margin: 18px 0 0;
+      }
+
+      .data-card .metric span {
+        border: 1px solid rgba(31, 27, 22, 0.08);
+        border-radius: 8px;
+        padding: 10px 12px;
+        color: currentColor;
+        font-size: 13px;
+        line-height: 1.5;
+        background: rgba(255, 255, 255, 0.54);
+      }
+
+      .data-card .metric b {
+        display: block;
+        color: currentColor;
+        font-size: 22px;
+      }
+
+      .data-head {
+        padding: 28px 34px 30px;
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto;
+        gap: 18px;
+        align-items: center;
+      }
+
+      .data-head p {
+        margin: 12px 0 0;
+        font-size: 20px;
+        line-height: 1.45;
+      }
+
+      .data-action {
+        border: 1px solid #c9c2ba;
+        background: #fffdfa;
+        color: var(--ink);
+        border-radius: 10px;
+        padding: 12px 24px;
+        font-size: 20px;
+        font-weight: 800;
+        cursor: pointer;
+        white-space: nowrap;
+      }
+
+      .data-body {
+        padding: 28px 34px;
+        color: #aaa39b;
+        font-size: 22px;
+        line-height: 1.6;
+        background: #fff;
+      }
+
+      .tone-writing {
+        color: #9a4f2f;
+        background: #fff2e3;
+      }
+
+      .tone-grammar {
+        color: #5142b0;
+        background: #ebe8ff;
+      }
+
+      .tone-reading {
+        color: #1d8061;
+        background: #e4f8f0;
+      }
+
+      .tone-vocab {
+        color: #1a5fa8;
+        background: #e6f1fc;
+      }
+
+      .tone-listening {
+        color: #826300;
+        background: #f5efd9;
+      }
+
+      .tone-phonics {
+        color: #a0307a;
+        background: #f6e1ef;
+      }
+
+      .mobile-nav {
+        display: none;
+      }
+
+      @media (max-width: 980px) {
+        .hero,
+        .layout {
+          grid-template-columns: 1fr;
+        }
+
+        .hero-actions {
+          justify-content: flex-start;
+        }
+
+        .todo-grid,
+        .module-grid,
+        .student-functions,
+        .data-grid {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+      }
+
+      @media (max-width: 680px) {
+        .gtb-row {
+          display: none;
+        }
+
+        .subnav {
+          padding: 0 14px;
+        }
+
+        .page {
+          padding: 24px 14px 92px;
+        }
+
+        h1 {
+          font-size: 28px;
+        }
+
+        .todo-grid,
+        .module-grid,
+        .student-functions,
+        .data-grid,
+        .meta-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .class-row {
+          align-items: flex-start;
+          flex-direction: column;
+        }
+
+        .progress {
+          width: 100%;
+        }
+
+        .mobile-nav {
+          position: fixed;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          height: 64px;
+          display: grid;
+          grid-template-columns: repeat(4, 1fr);
+          background: #fff;
+          border-top: 1px solid var(--line);
+          z-index: 30;
+        }
+
+        .mobile-nav button {
+          border: 0;
+          background: transparent;
+          color: var(--muted);
+          font-size: 11px;
+          font-weight: 800;
+        }
+
+        .mobile-nav button.active {
+          color: var(--warm);
+          border-top: 2px solid var(--warm);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header class="gtb">
+      <div class="gtb-row">
+        <button class="logo" type="button">
+          <img src="public/logo-full.svg" alt="nest English" />
+          <span>筑巢英语</span>
+        </button>
+        <div class="vline"></div>
+        <button class="nav-link active" type="button">工作台</button>
+        <button class="nav-link" type="button">备课</button>
+        <button class="nav-link" type="button">数据</button>
+        <div class="spacer"></div>
+        <button class="nav-link" type="button">探索</button>
+        <button class="avatar" type="button" aria-label="账号菜单">王</button>
+      </div>
+    </header>
+
+    <main class="page">
+      <section class="hero">
+        <div>
+          <h1>教师工作台</h1>
+          <p>这里显示老师可以布置给学生的任务模块。</p>
+          <p>选择模块进入后，再选择任务内容、班级、截止时间并发布。</p>
+        </div>
+        <div class="hero-actions">
+          <button class="btn" type="button">刷新任务</button>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="section-head">
+          <div>
+            <h2>暂无待处理任务，可以从模块开始布置。</h2>
+          </div>
+        </div>
+        <div class="module-grid">
+          <article class="module-card featured">
+            <div class="module-top">
+              <span class="dot" style="background:#eadbd4"></span>
+              <div>
+                <h3>写作</h3>
+                <p>作文 · 批改 · 实战</p>
+              </div>
+            </div>
+          </article>
+
+          <article class="module-card">
+            <div class="module-top">
+              <span class="dot" style="background:#ded9ef"></span>
+              <div>
+                <h3>语法</h3>
+                <p>分析 · 练习 · 精讲</p>
+              </div>
+            </div>
+          </article>
+
+          <article class="module-card">
+            <div class="module-top">
+              <span class="dot" style="background:#d9e8e3"></span>
+              <div>
+                <h3>阅读</h3>
+                <p>思维 · 练习 · 精读</p>
+              </div>
+            </div>
+          </article>
+
+          <article class="module-card">
+            <div class="module-top">
+              <span class="dot" style="background:#d7e2ee"></span>
+              <div>
+                <h3>词汇</h3>
+                <p>阅读词 · 写作词 · 闪卡</p>
+              </div>
+            </div>
+          </article>
+
+          <article class="module-card">
+            <div class="module-top">
+              <span class="dot" style="background:#e9e4d6"></span>
+              <div>
+                <h3>听读</h3>
+                <p>辨音 · 精听 · 模拟</p>
+              </div>
+            </div>
+          </article>
+
+          <article class="module-card">
+            <div class="module-top">
+              <span class="dot" style="background:#ecd8e5"></span>
+              <div>
+                <h3>语音</h3>
+                <p>音素 · 拼读 · 句子</p>
+              </div>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section class="section layout">
+        <div class="panel">
+          <div class="panel-head">
+            <h2>学生任务卡片摘要</h2>
+            <span class="badge">发布前核对</span>
+          </div>
+          <div class="panel-body">
+            <div class="task-preview">
+              <div class="task-preview-head">
+                <strong>高二议论文写作：科技与学习效率</strong>
+                <span class="status">待完成</span>
+              </div>
+              <div class="task-preview-body">
+                <div class="meta-grid">
+                  <div class="meta">
+                    <label>班级</label>
+                    <b>高二（3）班</b>
+                  </div>
+                  <div class="meta">
+                    <label>截止时间</label>
+                    <b>7月3日 20:00</b>
+                  </div>
+                  <div class="meta">
+                    <label>满分</label>
+                    <b>20 分</b>
+                  </div>
+                </div>
+                <div class="prompt">
+                  任务要求摘要：围绕“AI 工具是否提升学习效率”完成一篇 120-150 词议论文，要求观点明确，至少包含两个理由和一个例子。
+                </div>
+                <div style="display:flex; justify-content:space-between; gap:12px; align-items:center; flex-wrap:wrap;">
+                  <span style="font-size:12px;color:#a09080;">尚未提交 · 允许补交</span>
+                  <button class="btn primary" type="button" style="padding:8px 14px;">学生按钮：去完成</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <aside class="panel">
+          <div class="panel-head">
+            <h2>布置流程</h2>
+            <span class="badge">模块内完成</span>
+          </div>
+          <div class="panel-body class-list">
+            <div class="class-row">
+              <div>
+                <strong>1. 选择任务内容</strong><br />
+                <span>题库、自由输入、上传材料或选择训练模板。</span>
+              </div>
+            </div>
+            <div class="class-row">
+              <div>
+                <strong>2. 选择班级和学生</strong><br />
+                <span>支持整班、分层小组或单独学生。</span>
+              </div>
+            </div>
+            <div class="class-row">
+              <div>
+                <strong>3. 核对学生任务卡片</strong><br />
+                <span>确认学生看到的标题、要求、截止时间和入口。</span>
+              </div>
+            </div>
+          </div>
+        </aside>
+      </section>
+
+      <section class="section prep-section">
+        <div class="section-head">
+          <div>
+            <h2>备课</h2>
+            <p>备课才使用学生端的功能样式，老师点进去看到的就是学生同款练习入口。</p>
+          </div>
+        </div>
+        <nav class="subnav" aria-label="备课模块导航">
+          <div class="subnav-title">备课模块</div>
+          <button class="subtab active" type="button">写作</button>
+          <button class="subtab" type="button">语法</button>
+          <button class="subtab" type="button">阅读</button>
+          <button class="subtab" type="button">词汇</button>
+          <button class="subtab" type="button">听读</button>
+          <button class="subtab" type="button">语音</button>
+        </nav>
+        <div class="student-functions">
+          <article class="function-card">
+            <strong>句子分析</strong>
+            <p>分析 · 标注 · 讲解</p>
+          </article>
+          <article class="function-card">
+            <strong>阅读思维</strong>
+            <p>结构 · 推断 · 精读</p>
+          </article>
+          <article class="function-card">
+            <strong>词汇闪卡</strong>
+            <p>词义 · 拼写 · 复习</p>
+          </article>
+          <article class="function-card">
+            <strong>音素训练</strong>
+            <p>音素 · 拼读 · 跟读</p>
+          </article>
+          <article class="function-card">
+            <strong>精听听写</strong>
+            <p>精听 · 听写 · 复盘</p>
+          </article>
+          <article class="function-card">
+            <strong>写作实战</strong>
+            <p>审题 · 写作 · 反馈</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="section-head">
+          <div>
+            <h2>数据</h2>
+            <p>参考学生端“成长”，但教师看到的是每个模块下各班级所有学生的数据合集。</p>
+          </div>
+        </div>
+        <div class="data-grid">
+          <article class="data-card">
+            <div class="data-head tone-writing">
+              <div>
+                <h3>写作</h3>
+                <p>批改 · 精练 · 实战</p>
+              </div>
+              <button class="data-action" type="button">看数据</button>
+            </div>
+            <div class="data-body">
+              高二（3）班 36 人 · 高一（5）班 39 人 · 本周 117 次提交 · 7 篇待批改
+            </div>
+          </article>
+
+          <article class="data-card">
+            <div class="data-head tone-grammar">
+              <div>
+                <h3>语法</h3>
+                <p>分析 · 练习 · 精讲</p>
+              </div>
+              <button class="data-action" type="button">看数据</button>
+            </div>
+            <div class="data-body">
+              初三（1）班 42 人 · 高二（3）班 36 人 · 正确率 76% · 从句和非谓语偏弱
+            </div>
+          </article>
+
+          <article class="data-card">
+            <div class="data-head tone-reading">
+              <div>
+                <h3>阅读</h3>
+                <p>思维 · 练习 · 精读</p>
+              </div>
+              <button class="data-action" type="button">看数据</button>
+            </div>
+            <div class="data-body">
+              高一（5）班 39 人 · 本周 89 次阅读 · 长难句和主题推断需要加强
+            </div>
+          </article>
+
+          <article class="data-card">
+            <div class="data-head tone-vocab">
+              <div>
+                <h3>词汇</h3>
+                <p>阅读词 · 写作词 · 闪卡</p>
+              </div>
+              <button class="data-action" type="button">看数据</button>
+            </div>
+            <div class="data-body">
+              初三（1）班 42 人 · 本周 312 张词卡 · 高频词复习完成率 78%
+            </div>
+          </article>
+
+          <article class="data-card">
+            <div class="data-head tone-listening">
+              <div>
+                <h3>听读</h3>
+                <p>辨音 · 精听 · 模拟</p>
+              </div>
+              <button class="data-action" type="button">看数据</button>
+            </div>
+            <div class="data-body">
+              3 个班级 · 本周 64 次精听 · 听写准确率 71% · 12 人未完成
+            </div>
+          </article>
+
+          <article class="data-card">
+            <div class="data-head tone-phonics">
+              <div>
+                <h3>语音</h3>
+                <p>音素 · 拼读 · 句子</p>
+              </div>
+              <button class="data-action" type="button">看数据</button>
+            </div>
+            <div class="data-body">
+              2 个班级 · 本周 48 次跟读 · /th/、连读和重音是主要问题
+            </div>
+          </article>
+        </div>
+      </section>
+    </main>
+
+    <nav class="mobile-nav" aria-label="移动端导航">
+      <button class="active" type="button">工作台</button>
+      <button type="button">备课</button>
+      <button type="button">数据</button>
+      <button type="button">探索</button>
+    </nav>
+  </body>
+</html>

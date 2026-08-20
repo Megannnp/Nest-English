@@ -1,0 +1,19 @@
+{
+  "name": "筑巢英语",
+  "short_name": "nest",
+  "description": "面向各阶段英语学习的 AI 平台，覆盖写作、语法、阅读、词汇、听读、语音、口语和成长记录。",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#f5f1eb",
+  "theme_color": "#2e2840",
+  "lang": "zh-CN",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ]
+}

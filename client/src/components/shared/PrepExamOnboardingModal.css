@@ -1,0 +1,150 @@
+/* ── Prep Exam Onboarding Modal ──────────────────────────── */
+.pxo-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 1400;
+  background: rgba(15, 10, 5, 0.42);
+  backdrop-filter: blur(3px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+}
+
+.pxo-modal {
+  width: min(560px, 100%);
+  max-height: calc(100vh - 48px);
+  overflow-y: auto;
+  background: #fffdf8;
+  border: 1px solid rgba(200, 135, 45, 0.16);
+  border-radius: 20px;
+  box-shadow: 0 24px 80px rgba(50, 30, 10, 0.22);
+  animation: pxo-in 0.22s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@keyframes pxo-in {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.pxo-modal__head {
+  padding: 24px 28px 14px;
+}
+
+.pxo-modal__kicker {
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #c8872d;
+  display: block;
+  margin-bottom: 8px;
+}
+
+.pxo-modal__head h2 {
+  font-size: 24px;
+  font-weight: 800;
+  color: #241a12;
+  letter-spacing: -0.4px;
+  margin: 0 0 8px;
+}
+
+.pxo-modal__head p {
+  font-size: 14px;
+  line-height: 1.7;
+  color: #7a6b5b;
+  margin: 0;
+}
+
+.pxo-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  padding: 14px 28px;
+}
+
+.pxo-card {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 6px;
+  text-align: left;
+  border: 1px solid #e8dfd4;
+  border-radius: 12px;
+  background: #fff;
+  padding: 14px 16px;
+  cursor: pointer;
+  transition: border-color 0.16s ease, box-shadow 0.16s ease;
+}
+
+.pxo-card:hover {
+  border-color: #d4b78f;
+  box-shadow: 0 6px 18px rgba(200, 135, 45, 0.10);
+}
+
+.pxo-card strong {
+  font-size: 16px;
+  font-weight: 800;
+  color: #241a12;
+}
+
+.pxo-card span {
+  font-size: 12px;
+  line-height: 1.6;
+  color: #8a7d6e;
+}
+
+.pxo-card em {
+  font-style: normal;
+  font-size: 12px;
+  font-weight: 800;
+  color: #b8832e;
+  margin-top: 4px;
+}
+
+.pxo-card:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+
+.pxo-error {
+  margin: 0;
+  padding: 0 28px 12px;
+  color: #b02020;
+  font-size: 13px;
+}
+
+.pxo-modal__foot {
+  padding: 8px 28px 20px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.pxo-skip {
+  border: none;
+  background: transparent;
+  color: #998a78;
+  font-size: 13px;
+  font-weight: 700;
+  padding: 8px 10px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.pxo-skip:hover {
+  background: rgba(0, 0, 0, 0.04);
+  color: #6f5a3c;
+}
+
+@media (max-width: 520px) {
+  .pxo-grid {
+    grid-template-columns: 1fr;
+  }
+}

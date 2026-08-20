@@ -1,0 +1,39 @@
+{
+  "name": "nest-project",
+  "type": "module",
+  "version": "1.0.0",
+  "description": "NEST English — monorepo root",
+  "scripts": {
+    "postinstall": "npm install --prefix server && npm install --prefix client",
+    "dev:server": "npm run dev --prefix server",
+    "dev:client": "npm run dev --prefix client",
+    "dev": "npm run dev:server & npm run dev:client",
+    "build": "npm run build --prefix client",
+    "lint": "eslint .",
+    "lint:budget": "node scripts/check-lint-warning-budget.mjs",
+    "lint:touched": "node scripts/check-touched-files-lint-regression.mjs",
+    "check:a11y": "node scripts/check-accessibility-baseline.mjs",
+    "check:file-size": "node scripts/check-file-size.mjs",
+    "phonemes:generate:ai": "node scripts/generate-ai-phoneme-assets.mjs",
+    "phonemes:generate:edge": "node scripts/generate-edge-phoneme-assets.mjs",
+    "phonemes:generate:local": "node scripts/generate-local-phoneme-assets.mjs",
+    "phonemes:import": "node scripts/import-rp-phoneme-recordings.mjs",
+    "phonemes:check": "node scripts/check-phoneme-audio-assets.mjs",
+    "test:client": "npm test --prefix client",
+    "test:server": "npm test --prefix server && npm run test:http --prefix server",
+    "test:all": "npm run test:client && npm run test:server",
+    "start": "npm start --prefix server",
+    "docs:update": "node scripts/update-docs.js",
+    "nestos:update": "node scripts/update-docs.js && node scripts/daily-log.mjs"
+  },
+  "private": true,
+  "devDependencies": {
+    "@eslint/js": "^9.39.4",
+    "eslint": "^9.39.4",
+    "eslint-plugin-import": "^2.32.0",
+    "eslint-plugin-react": "^7.37.5",
+    "eslint-plugin-react-hooks": "^7.1.1",
+    "globals": "^16.5.0"
+  },
+  "dependencies": {}
+}

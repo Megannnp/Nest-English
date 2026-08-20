@@ -1,0 +1,15 @@
+export const T = {
+  primary: '#8a5a1f',
+  primaryLight: '#f4eadc',
+  primaryDark: '#5f3d18',
+  border: '#e8e0d5',
+  text: '#2a1f14',
+  textSecondary: '#8a7d6e',
+  textMuted: '#a09080',
+  success: '#2d9e6b',
+  successLight: '#edfaf3',
+  error: '#b02020',
+  errorLight: '#fdf0ef',
+  card: '#ffffff',
+  cardAlt: '#faf8f5',
+};

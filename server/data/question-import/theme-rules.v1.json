@@ -1,0 +1,30 @@
+{
+  "version": "v1",
+  "themeCandidates": [
+    "校园生活",
+    "个人成长",
+    "人际关系",
+    "家庭亲情",
+    "社会参与",
+    "志愿服务",
+    "传统文化",
+    "跨文化交流",
+    "科技生活",
+    "环境保护",
+    "体育健康",
+    "学习方法",
+    "公共文明",
+    "创新实践",
+    "人与自然"
+  ],
+  "titleRules": [
+    { "match": ["校报", "校园", "学生会", "课间", "学校"], "theme": "校园生活", "confidence": "high" },
+    { "match": ["中国故事", "传统文化", "京剧", "长城", "历史人物"], "theme": "传统文化", "confidence": "high" },
+    { "match": ["联合国", "倡议", "绿色北京"], "theme": "社会参与", "confidence": "high" },
+    { "match": ["海洋", "环境", "植物", "环保"], "theme": "环境保护", "confidence": "high" },
+    { "match": ["运动", "sports", "health", "锻炼"], "theme": "体育健康", "confidence": "high" },
+    { "match": ["英语学习", "口语", "写作", "学习"], "theme": "学习方法", "confidence": "high" },
+    { "match": ["加拿大", "外国朋友", "国际学生", "名字", "文化"], "theme": "跨文化交流", "confidence": "medium-high" },
+    { "match": ["AI", "网络", "短视频", "互联网", "online"], "theme": "科技生活", "confidence": "medium-high" }
+  ]
+}

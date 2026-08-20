@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>筑巢英语</title>
+  <meta
+    id="meta-description"
+    name="description"
+    content="nest 是面向各阶段英语学习的 AI 平台，覆盖写作批改、语法分析、阅读训练、语音、词汇、听力、会员与学习记录追踪。"
+  />
+  <meta
+    name="keywords"
+    content="AI英语学习,英语写作批改,语法分析,阅读训练,英语词汇,英语听力,英语口语,筑巢英语"
+  />
+  <meta name="theme-color" content="#f5f1eb" />
+  <meta id="meta-robots" name="robots" content="index,follow" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="筑巢英语" />
+  <meta property="og:locale" content="zh_CN" />
+  <meta id="meta-og-title" property="og:title" content="筑巢英语" />
+  <meta
+    id="meta-og-description"
+    property="og:description"
+    content="用 AI 串联写作、阅读、语法、词汇、听读、语音和口语训练，让每一次练习都留下看得见的成长记录。"
+  />
+  <meta id="meta-og-url" property="og:url" content="https://nestenglish.com/" />
+  <meta id="meta-og-image" property="og:image" content="/og-cover.svg" />
+  <meta id="meta-og-image-secure" property="og:image:secure_url" content="/og-cover.svg" />
+  <meta property="og:image:alt" content="筑巢英语预览封面" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta id="meta-twitter-title" name="twitter:title" content="筑巢英语" />
+  <meta
+    id="meta-twitter-description"
+    name="twitter:description"
+    content="面向英语学习与教学场景的 AI 平台，支持写作、语法、阅读、词汇、听读、语音、口语和成长记录。"
+  />
+  <meta id="meta-twitter-image" name="twitter:image" content="/og-cover.svg" />
+  <link rel="canonical" id="link-canonical" href="https://nestenglish.com/" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <link rel="apple-touch-icon" href="/favicon.svg" />
+  <link rel="manifest" href="/site.webmanifest" />
+  <!-- iOS PWA 全屏模式 -->
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="nest" />
+  <script id="structured-data" type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"筑巢英语","url":"https://nestenglish.com","description":"面向英语学习与教学场景的 AI 平台，支持写作、语法、阅读、词汇、听读、语音、口语和成长记录。","applicationCategory":"EducationalApplication","inLanguage":"zh-CN"}</script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { height: 100%; }
+    body { font-family: "SF Pro Display", "SF Pro Text", "PingFang SC", "Hiragino Sans GB", "Noto Sans SC", sans-serif; background: #f5f1eb; }
+    #root { min-height: 100%; }
+  </style>
+</head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+    <script type="module">
+      if ('serviceWorker' in navigator) {
+        if (import.meta.env.PROD) {
+          // Register the removal worker once so existing installs update to a
+          // worker that clears legacy caches and unregisters itself.
+          window.addEventListener('load', () => {
+            navigator.serviceWorker.register('/sw.js').catch((error) => {
+              console.warn('Service worker registration cleanup failed:', error);
+            });
+          });
+        } else {
+          navigator.serviceWorker.getRegistrations()
+            .then((registrations) => Promise.all(registrations.map((registration) => registration.unregister())))
+            .then(() => ('caches' in window ? window.caches.keys() : []))
+            .then((keys) => Promise.all(
+              (keys || [])
+                .filter((key) => key.startsWith('nest-'))
+                .map((key) => window.caches.delete(key))
+            ))
+            .catch((error) => {
+              console.warn('Legacy service worker cleanup failed:', error);
+            });
+        }
+      }
+    </script>
+  </body>
+</html>

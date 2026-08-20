@@ -1,0 +1,39 @@
+{
+  "name": "nest-server",
+  "version": "1.0.0",
+  "description": "NEST English — Backend API",
+  "type": "module",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js",
+    "seed:admin": "node scripts/seed-admin.js",
+    "db:migrate": "node scripts/migrate.js",
+    "db:check-migrations": "node scripts/check-migrations.js",
+    "db:backup": "bash scripts/backup-mysql.sh",
+    "db:restore": "bash scripts/restore-mysql.sh",
+    "worker:question-analysis": "node workers/questionAnalysisWorker.js",
+    "dev:worker:question-analysis": "node --watch workers/questionAnalysisWorker.js",
+    "test": "node scripts/run-tests.js unit",
+    "test:watch": "node scripts/run-tests.js unit --watch",
+    "test:http": "node scripts/run-tests.js http",
+    "test:http:watch": "node scripts/run-tests.js http --watch",
+    "test:integration:mysql": "node scripts/run-tests.js mysql",
+    "test:all": "node scripts/run-tests.js all"
+  },
+  "dependencies": {
+    "ali-oss": "^6.23.0",
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.6",
+    "dotenv": "^16.4.5",
+    "express": "^4.22.1",
+    "express-rate-limit": "^8.3.2",
+    "helmet": "^8.1.0",
+    "jsonwebtoken": "^9.0.3",
+    "multer": "^2.1.1",
+    "mysql2": "^3.19.1",
+    "nodemailer": "^9.0.1",
+    "redis": "^5.11.0",
+    "ws": "^8.21.0"
+  }
+}

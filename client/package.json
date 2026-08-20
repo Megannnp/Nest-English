@@ -1,0 +1,37 @@
+{
+  "name": "nest-client",
+  "version": "1.0.0",
+  "description": "NEST English — Frontend",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
+  "dependencies": {
+    "dompurify": "^3.4.11",
+    "exceljs": "^4.4.0",
+    "html2canvas": "^1.4.1",
+    "jspdf": "^4.2.0",
+    "lucide-react": "^1.23.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-router-dom": "^6.30.3",
+    "read-excel-file": "^9.2.0"
+  },
+  "overridesComment": "exceljs 4.4.0 (latest) pins uuid 8.3.2, which trips GHSA-w5hq-g745-h8pq. exceljs only calls uuid.v4() with no buf argument, so the advisory is not reachable here, but we lift uuid to a patched line to keep `npm audit` clean. Do NOT run `npm audit fix --force`: it downgrades exceljs to 3.4.0.",
+  "overrides": {
+    "uuid": "^11.1.1"
+  },
+  "devDependencies": {
+    "@testing-library/jest-dom": "^6.9.1",
+    "@testing-library/react": "^16.3.2",
+    "@testing-library/user-event": "^14.6.1",
+    "@vitejs/plugin-react": "^4.3.1",
+    "jsdom": "^29.0.2",
+    "vite": "^5.4.21",
+    "vitest": "^4.1.4"
+  }
+}

@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Grammar Studio Preview</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --gm-bg:     #faf8ff;
+    --gm-card:   #ffffff;
+    --gm-purple: #5c3d9e;
+    --gm-text:   #2e2840;
+    --gm-muted:  #7a6e90;
+    --gm-border: rgba(92,61,158,0.1);
+  }
+  body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; background: var(--gm-bg); color: var(--gm-text); line-height: 1.5; word-break: break-word; }
+
+  nav { position: sticky; top: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; padding: 0 40px; height: 60px; background: rgba(250,248,255,0.92); backdrop-filter: blur(12px); border-bottom: 1px solid var(--gm-border); }
+  .nav-left { display: flex; align-items: baseline; gap: 10px; flex-shrink: 0; white-space: nowrap; }
+  .nav-logo  { font-size: 22px; font-weight: 800; color: var(--gm-text); letter-spacing: -0.5px; }
+  .nav-studio { font-size: 11px; font-weight: 500; color: var(--gm-muted); letter-spacing: 0.08em; text-transform: uppercase; }
+  .nav-studio em { font-size: 13px; font-weight: 800; color: var(--gm-purple); font-style: normal; }
+  .nav-actions { display: flex; gap: 8px; }
+  .nav-login    { background: transparent; border: none; padding: 8px 16px; font-size: 14px; color: var(--gm-text); cursor: pointer; border-radius: 100px; }
+  .nav-register { background: var(--gm-purple); border: none; padding: 9px 20px; font-size: 14px; color: #fff; cursor: pointer; border-radius: 100px; font-weight: 700; }
+
+  .hero { text-align: center; padding: 72px 40px 56px; max-width: 680px; margin: 0 auto; }
+  .hero-kicker { font-size: 11px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--gm-purple); margin-bottom: 18px; }
+  .hero-title  { font-size: 58px; font-weight: 800; line-height: 1.08; color: var(--gm-text); margin-bottom: 20px; letter-spacing: -1.5px; }
+  .hero-sub    { font-size: 17px; line-height: 1.65; color: var(--gm-muted); margin-bottom: 40px; }
+  .hero-actions { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+  .btn-primary  { background: var(--gm-purple); color: #fff; border: none; padding: 15px 32px; border-radius: 100px; font-size: 16px; font-weight: 700; cursor: pointer; }
+  .btn-secondary{ background: transparent; border: 2px solid var(--gm-border); color: var(--gm-muted); padding: 13px 28px; border-radius: 100px; font-size: 16px; font-weight: 600; cursor: pointer; }
+
+  .pin-grid-wrap { position: relative; padding: 0 20px; overflow: hidden; }
+  .pin-grid { columns: 4; column-gap: 14px; }
+  .pin { break-inside: avoid; margin-bottom: 14px; border-radius: 20px; overflow: hidden; background: var(--gm-card); border: 1px solid var(--gm-border); box-shadow: 0 2px 12px rgba(92,61,158,0.06); transition: transform 0.2s, box-shadow 0.2s; }
+  .pin:hover { transform: translateY(-2px); box-shadow: 0 6px 24px rgba(92,61,158,0.13); }
+  .pin-img  { width: 100%; padding: 20px 18px 16px; display: flex; flex-direction: column; gap: 8px; }
+  .pin-body { padding: 12px 16px 16px; background: #fff; }
+  .pin-title { font-size: 14px; font-weight: 700; color: var(--gm-text); margin-bottom: 4px; }
+  .pin-meta  { font-size: 12px; color: var(--gm-muted); }
+
+  /* 统一紫调渐变，深浅区分 */
+  .v { background: linear-gradient(145deg, #cfc3ee, #b9a8e6); }
+  .q { background: linear-gradient(145deg, #eae5f8, #ddd6f4); }
+  .t { background: linear-gradient(145deg, #edeafc, #e2dcf8); }
+  .e { background: linear-gradient(145deg, #e8e2f8, #dcd4f5); }
+  .p { background: linear-gradient(145deg, #e5e0f9, #d8d0f5); }
+
+  .lbl { font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gm-muted); margin-bottom: 8px; }
+  .thumb { width:100%; height:70px; border-radius:10px; background:rgba(255,255,255,0.3); display:flex; align-items:center; justify-content:center; margin-bottom:10px; }
+  .play  { width:34px; height:34px; border-radius:50%; background:#fff; box-shadow:0 2px 8px rgba(92,61,158,0.25); display:flex; align-items:center; justify-content:center; font-size:12px; color:var(--gm-purple); padding-left:2px; }
+  .vt { font-size:13px; font-weight:700; color:var(--gm-text); }
+  .vm { font-size:11px; color:var(--gm-muted); margin-top:2px; }
+
+  .qq { font-size:12px; color:var(--gm-text); line-height:1.55; margin-bottom:10px; }
+  .opts { display:flex; flex-direction:column; gap:5px; }
+  .opt  { font-size:12px; padding:6px 10px; border-radius:8px; background:rgba(255,255,255,0.55); color:var(--gm-text); }
+  .ok   { background:rgba(60,160,100,0.14); color:#1e6e40; font-weight:600; }
+  .no   { background:rgba(180,60,40,0.1); color:#8a2a1a; }
+
+  .sent { font-size:12px; line-height:1.65; color:var(--gm-text); font-style:italic; margin-bottom:10px; }
+  .tree { display:flex; flex-direction:column; gap:3px; font-size:11px; color:var(--gm-muted); }
+  .tn   { color:var(--gm-purple); font-weight:600; padding-left:10px; }
+  .tn2  { color:var(--gm-purple); font-weight:600; padding-left:22px; }
+
+  .eb { font-size:12px; color:#7a2a1a; text-decoration:line-through; line-height:1.5; background:rgba(255,255,255,0.45); padding:4px 8px; border-radius:6px; margin-bottom:6px; }
+  .ea { font-size:12px; color:#1a5e38; font-weight:600; line-height:1.5; background:rgba(255,255,255,0.45); padding:4px 8px; border-radius:6px; margin-bottom:8px; }
+  .en { font-size:11px; color:var(--gm-muted); font-style:italic; }
+
+  .pr { margin-bottom:9px; }
+  .pr:last-child { margin:0; }
+  .pn { font-size:12px; color:var(--gm-text); margin-bottom:5px; }
+  .pb { height:5px; border-radius:3px; background:rgba(255,255,255,0.4); overflow:hidden; margin-bottom:3px; }
+  .pf { height:100%; border-radius:3px; background:rgba(92,61,158,0.6); }
+  .pi { display:flex; justify-content:space-between; font-size:10px; color:var(--gm-muted); }
+
+  .fade { position:absolute; bottom:0; left:0; right:0; height:160px; background:linear-gradient(to top, var(--gm-bg) 20%, transparent); pointer-events:none; }
+
+  .cta { text-align:center; padding:60px 40px 72px; max-width:520px; margin:0 auto; }
+  .cta h2 { font-size:32px; font-weight:800; color:var(--gm-text); margin-bottom:14px; letter-spacing:-0.5px; }
+  .cta p  { font-size:16px; color:var(--gm-muted); margin-bottom:30px; line-height:1.6; }
+  .cta-row { display:flex; gap:12px; justify-content:center; flex-wrap:wrap; }
+  .btn-out { background:transparent; border:2px solid var(--gm-border); color:var(--gm-muted); padding:13px 28px; border-radius:100px; font-size:15px; font-weight:600; cursor:pointer; }
+
+  footer { padding:24px 40px 32px; text-align:center; border-top:1px solid var(--gm-border); }
+  .fl { display:flex; justify-content:center; gap:12px; margin-bottom:8px; }
+  .fl a, .fl span { font-size:13px; color:var(--gm-muted); text-decoration:none; }
+  .fc { font-size:12px; color:var(--gm-muted); opacity:0.6; }
+
+  @media (max-width: 900px) { .pin-grid { columns: 2; } }
+  @media (max-width: 560px) {
+    .nav-studio { display:none; } nav { padding:0 16px; }
+    .hero { padding:48px 24px 40px; } .hero-title { font-size:36px; }
+    .pin-grid { columns:1; } .pin-grid-wrap { padding:0 12px; }
+    .cta { padding:48px 24px 56px; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-left">
+    <span class="nav-logo">nest</span>
+    <span class="nav-studio">AI <em>GRAMMAR</em> Studio</span>
+  </div>
+  <div class="nav-actions">
+    <button class="nav-login">登录</button>
+    <button class="nav-register">免费注册</button>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="hero-kicker">AI Grammar Studio</div>
+  <h1 class="hero-title">读懂语法，<br/>写出好句</h1>
+  <p class="hero-sub">视频课程 + AI 练习 + 长难句分析，系统性提升英语语法理解与运用能力。</p>
+  <div class="hero-actions">
+    <button class="btn-primary">开始学习</button>
+    <button class="btn-secondary">浏览课程</button>
+  </div>
+</section>
+
+<div class="pin-grid-wrap">
+  <div class="pin-grid">
+
+    <div class="pin">
+      <div class="pin-img v">
+        <div class="lbl">Chapter 01</div>
+        <div class="thumb"><div class="play">▶</div></div>
+        <div class="vt">定语从句：从句结构精讲</div>
+        <div class="vm">12 分 34 秒</div>
+      </div>
+      <div class="pin-body"><div class="pin-title">视频课程</div><div class="pin-meta">高考语法 · 定语从句</div></div>
+    </div>
+
+    <div class="pin">
+      <div class="pin-img q">
+        <div class="lbl">AI 语法练习</div>
+        <div class="qq">选择正确的关系词：<br/>"The book ___ she recommended was amazing."</div>
+        <div class="opts">
+          <div class="opt ok">✓ that / which</div>
+          <div class="opt no">✗ who</div>
+          <div class="opt">whom</div>
+        </div>
+      </div>
+      <div class="pin-body"><div class="pin-title">AI 智能练习</div><div class="pin-meta">即时反馈 · 难度自适应</div></div>
+    </div>
+
+    <div class="pin">
+      <div class="pin-img t">
+        <div class="lbl">长难句分析</div>
+        <div class="sent">"The professor who had written the book that changed my life retired last year."</div>
+        <div class="tree">
+          <div>主句</div>
+          <div class="tn">The professor retired</div>
+          <div>└ 定语从句①</div>
+          <div class="tn">· who had written the book</div>
+          <div style="padding-left:10px">└ 定语从句②</div>
+          <div class="tn2">· that changed my life</div>
+        </div>
+      </div>
+      <div class="pin-body"><div class="pin-title">句子结构树状图</div><div class="pin-meta">AI · 层层拆解</div></div>
+    </div>
+
+    <div class="pin">
+      <div class="pin-img e">
+        <div class="lbl">语法纠错</div>
+        <div class="eb">The man which I met yesterday is a teacher.</div>
+        <div class="ea">The man whom I met yesterday is a teacher.</div>
+        <div class="en">人作宾语时，关系词应用 whom 而非 which</div>
+      </div>
+      <div class="pin-body"><div class="pin-title">AI 实时纠错</div><div class="pin-meta">解释原因 · 举一反三</div></div>
+    </div>
+
+    <div class="pin">
+      <div class="pin-img p">
+        <div class="lbl">学习进度</div>
+        <div class="pr"><div class="pn">定语从句</div><div class="pb"><div class="pf" style="width:75%"></div></div><div class="pi"><span>第3课 / 共4课</span><span>75%</span></div></div>
+        <div class="pr"><div class="pn">状语从句</div><div class="pb"><div class="pf" style="width:40%"></div></div><div class="pi"><span>第2课 / 共5课</span><span>40%</span></div></div>
+        <div class="pr"><div class="pn">名词性从句</div><div class="pb"><div class="pf" style="width:0%"></div></div><div class="pi"><span>未开始</span><span>0%</span></div></div>
+      </div>
+      <div class="pin-body"><div class="pin-title">学习进度追踪</div><div class="pin-meta">3 章节 · 持续更新</div></div>
+    </div>
+
+  </div>
+  <div class="fade"></div>
+</div>
+
+<section class="cta">
+  <h2>注册后解锁全部课程</h2>
+  <p>保存学习进度，追踪练习记录，系统性提升语法水平。</p>
+  <div class="cta-row">
+    <button class="btn-primary">免费注册</button>
+    <button class="btn-out">已有账号，登录</button>
+  </div>
+</section>
+
+<footer>
+  <div class="fl"><a href="#">Privacy</a><span>·</span><a href="#">Terms</a><span>·</span><a href="#">Email Us</a></div>
+  <div class="fc">© 2026 nest · AI Grammar Studio</div>
+</footer>
+
+</body>
+</html>

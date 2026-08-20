@@ -1,0 +1,1 @@
+export default { type: 'letter', label: '书信/邮件', icon: '✉️', color: '#8b5cf6', requiredFields: ['formatCheck.salutation','formatCheck.closing','formatCheck.signature','pointsCoverage.missing','toneCheck.score'] };

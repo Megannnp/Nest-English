@@ -1,0 +1,86 @@
+name: Server CI
+
+on:
+  push:
+    branches:
+      - main
+      - master
+  pull_request:
+
+jobs:
+  server-tests:
+    runs-on: ubuntu-latest
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_ROOT_PASSWORD: root
+          MYSQL_DATABASE: nest_integration_test
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping -h 127.0.0.1 -proot"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=10
+
+    env:
+      NODE_ENV: test
+      JWT_SECRET: test-secret
+      MYSQL_HOST: 127.0.0.1
+      MYSQL_PORT: 3306
+      MYSQL_USER: root
+      MYSQL_PASSWORD: root
+      MYSQL_DATABASE: nest_integration_test
+      DB_INIT_MODE: migrate
+      LINT_WARNING_BUDGET: 9
+      AI_DEFAULT_MODEL: test-model
+      AI_API_KEY: test-key
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: |
+            package-lock.json
+            server/package-lock.json
+            client/package-lock.json
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Check lint warning budget
+        run: npm run lint:budget
+
+      - name: Check touched-file lint regression
+        run: npm run lint:touched
+
+
+      - name: Check migration ordering
+        run: npm run db:check-migrations --prefix server
+
+      - name: Run migration smoke check
+        run: npm run db:migrate --prefix server
+
+      - name: Run server unit tests
+        run: npm test --prefix server
+
+      - name: Run server HTTP tests
+        run: npm run test:http --prefix server
+
+      - name: Run MySQL integration tests
+        run: npm run test:integration:mysql --prefix server
+
+      - name: Build frontend
+        run: npm run build --prefix client
+
+      - name: Upload frontend artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: client-dist
+          path: client/dist

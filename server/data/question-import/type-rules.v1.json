@@ -1,0 +1,34 @@
+{
+  "version": "v1",
+  "typeCandidates": [
+    "continuation",
+    "argumentative",
+    "summary",
+    "narrative",
+    "expository",
+    "speech",
+    "letter",
+    "notice",
+    "diary",
+    "chart_writing",
+    "report",
+    "proposal",
+    "review",
+    "picture_writing",
+    "post"
+  ],
+  "titleRules": [
+    { "match": ["读后续写"], "type": "continuation", "confidence": "high" },
+    { "match": ["建议信", "邀请信", "咨询信", "道歉信", "求助信", "投稿信", "告知信", "邮件", "回信", "书信"], "type": "letter", "confidence": "high" },
+    { "match": ["演讲稿", "发言稿"], "type": "speech", "confidence": "high" },
+    { "match": ["活动报道", "报道", "报告"], "type": "report", "confidence": "high" },
+    { "match": ["网络帖子", "帖子", "跟帖"], "type": "post", "confidence": "high" },
+    { "match": ["通知"], "type": "notice", "confidence": "high" },
+    { "match": ["倡议书"], "type": "proposal", "confidence": "high" },
+    { "match": ["图表"], "type": "chart_writing", "confidence": "high" },
+    { "match": ["看图"], "type": "picture_writing", "confidence": "high" },
+    { "match": ["日记"], "type": "diary", "confidence": "high" },
+    { "match": ["概要写作", "摘要", "summary"], "type": "summary", "confidence": "high" },
+    { "match": ["读后感", "观后感", "书评", "影评", "review"], "type": "review", "confidence": "high" }
+  ]
+}

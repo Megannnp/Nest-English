@@ -1,0 +1,64 @@
+node_modules/
+.npm-cache/
+client/node_modules/
+client/dist/
+dist/
+.DS_Store
+
+server/data/*.db
+server/data/*.db-shm
+server/data/*.db-wal
+
+# 真题导入运行时产物：上传落盘目录 + 解析结果缓存 + TTS 公开音频（不入库、不提交）
+server/data/exam-imports/
+server/data/parsed/
+server/data/tts-public/
+
+server/.env
+server/.env.local
+server/.env.*.local
+
+.claude/
+.deploy.local
+
+# ==== 开源发布：内部 / 隐私内容（不随公开仓库分发）====
+
+# 商业战略白皮书、营销首页、交付手册（公司内部，不公开）
+strategy-whitepaper/
+homepage/
+outputs/
+products/
+
+# AI 助手会话记忆（含内部商业方法论）
+.workbuddy/
+
+# 软件著作权申报材料（含公司登记信息与源码快照，不公开）
+软著申请*
+
+# 个人形象与联系方式素材（不公开）
+client/public/megan-card.png
+client/public/megan-enterprise-wechat-qr.png
+client/public/megan-portrait.jpg
+client/public/megan-public-account-qr.png
+client/public/megan-work/
+client/public/啾啾.png
+
+# 杂散 / 误生成文件
+--json
+server/d
+grammar2.html
+nestenglish logo.png
+
+# 测试产物
+client/test-results/
+client/playwright-report/
+client/playwright/.cache/
+
+# 内部产品规划与运维文档（保留面向开发者的 API/架构/数据模型等文档）
+docs/Product/
+docs/daily/
+docs/handoffs/
+docs/NESTOS_CONTEXT.md
+docs/nest-english-operations-v2.md
+docs/next-week-engineering-plan.md
+docs/user-path-scorecard.md
